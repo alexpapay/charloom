@@ -12,7 +12,8 @@ function fit() {
   if (!selected) return;
   const weight=$('bold').checked?'bold':'normal'; $('art').style.fontWeight=weight; $('measure').style.fontWeight=weight;
   const width=$('art').parentElement.clientWidth;
-  const cell=Math.min(width/selected.columns,560*result.options.character_aspect/selected.rows);
+  const availableHeight=window.matchMedia("(min-width:801px)").matches?Math.max(80,$("art").parentElement.clientHeight-50):560;
+  const cell=Math.min(width/selected.columns,availableHeight*result.options.character_aspect/selected.rows);
   const measured=$('measure').getBoundingClientRect().width/10;
   $('art').style.fontSize=`${100*cell/measured}px`;
   $('art').style.lineHeight=`${cell/result.options.character_aspect}px`;
