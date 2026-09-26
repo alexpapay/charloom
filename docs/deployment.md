@@ -35,3 +35,5 @@ The example limits API traffic by the connection's source address. Behind a CDN 
 Keep the previous commit and local image ID before updating. Run `git pull --ff-only`, `docker compose build`, then `docker compose up -d`. Verify health and a conversion. To roll back, check out the previous commit and rebuild/restart the single Charloom service. No database migration is involved.
 
 Application logs contain errors and startup messages, not uploaded image bodies. Review your proxy/CDN's retention independently. Do not publish credentials, source portraits, SSH configuration or certificate keys in the repository.
+
+For this hostname, install deploy/renew-hook.sh as an executable file under /etc/letsencrypt/renewal-hooks/deploy/ so nginx reloads after certificate renewal. Adapt the hostname when self-hosting elsewhere.
