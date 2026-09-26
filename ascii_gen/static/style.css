@@ -36,11 +36,7 @@ header { display: flex; gap: 16px; align-items: center; padding: 20px 28px; bord
 .version { font-size: 12px; color: var(--muted); }
 .github { margin-left: auto; text-decoration: none; font-size: 13px; padding: 6px 0; }
 .github:hover { text-decoration: underline; }
-.intro { display: flex; justify-content: space-between; align-items: center; padding: 28px; border-bottom: 1px solid var(--line); gap: 24px; }
-h1 { font-size: clamp(28px, 3vw, 38px); line-height: 1.12; letter-spacing: -1.5px; margin: 0 0 12px; }
-h1 em { font-style: normal; color: var(--ink); }
 p { line-height: 1.6; margin: 0; color: var(--muted); }
-.intro-note { font-size: 12px; text-align: right; }
 main { display: grid; grid-template-columns: 328px minmax(0, 1fr); }
 h2 { font-size: 12px; letter-spacing: 1px; font-weight: 600; margin: 0; }
 h2 span { color: var(--yellow); margin-right: 8px; }
@@ -96,21 +92,18 @@ footer #status { flex: 1; min-width: 180px; }
 #status.error { color: #ffa397; }
 [hidden] { display: none !important; }
 @media (min-width: 801px) {
-  main { height: max(940px, calc(100svh - 280px)); }
+  main { height: max(940px, calc(100svh - 160px)); }
   .settings { overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
   .art-viewport { min-height: 0; }
 }
 @media (max-width: 1000px) and (min-width: 801px) {
   main { grid-template-columns: 300px minmax(0, 1fr); }
   .settings, .preview { padding: 20px; }
-  .intro-note { max-width: 230px; }
 }
 @media (max-width: 800px) {
   body { margin: 12px; }
   header { padding: 20px; gap: 12px; }
   .brand { font-size: 24px; }
-  .intro { padding: 24px 20px; }
-  .intro-note { display: none; }
   main { grid-template-columns: 1fr; }
   .settings { border-right: 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); padding: 20px; gap: 20px 16px; }
   .settings h2, .upload, .privacy, .settings-note, .primary, .quiet, .settings label:has(select), .settings label:has(#edge), .settings .check { grid-column: 1 / -1; }
