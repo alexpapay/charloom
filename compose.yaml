@@ -1,0 +1,16 @@
+services:
+  charloom:
+    build: .
+    image: charloom:local
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4175:8000"
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,noexec,nosuid
+    mem_limit: 768m
+    cpus: 2
+    pids_limit: 64
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true

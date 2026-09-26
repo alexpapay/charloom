@@ -1,0 +1,9 @@
+{
+  "charset": " .:-=+*#%@",
+  "contrast": 1.1,
+  "edgeWeight": 0.1,
+  "detail": 0.25,
+  "background": "transparent-as-space",
+  "threshold": 0.02,
+  "crop": "contain"
+}

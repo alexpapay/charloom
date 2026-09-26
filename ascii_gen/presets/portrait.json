@@ -1,0 +1,13 @@
+{
+  "charset": " .,:;i1tfLCG08@",
+  "contrast": 1.2,
+  "brightness": 1.0,
+  "gamma": 0.95,
+  "edgeWeight": 0.16,
+  "characterAspectRatio": 0.5,
+  "background": "transparent-as-space",
+  "threshold": 0.09,
+  "detail": 0.55,
+  "crop": "cover",
+  "widths": [32, 40, 56, 72, 96, 120]
+}
