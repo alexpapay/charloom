@@ -18,7 +18,7 @@ function fit() {
   $('art').style.fontSize=`${100*cell/measured}px`;
   $('art').style.lineHeight=`${cell/result.options.character_aspect}px`;
 }
-function draw(width=120) {
+function draw(width=selected?.columns ?? 120) {
   selected=result.variants.find(v=>v.columns===width) || result.variants[0];
   const fragment=document.createDocumentFragment();
   runs(selected).forEach((row,index)=>{for(const run of row){const span=document.createElement('span');span.textContent=run.text;span.dataset.tone=run.tone;fragment.append(span);}if(index<selected.rows-1)fragment.append(document.createTextNode('\n'));});
