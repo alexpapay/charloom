@@ -121,3 +121,9 @@ MIT © 2026 alexpapay. Built with [Pillow](https://pillow.readthedocs.io/), [Num
 - Smooth shadow adjustments without rebuilding the character grid.
 - An optional AI redraw prompt with one-click copying.
 - Improved upload concurrency limits and playground layout polish.
+
+## Search visibility and analytics
+
+Version 0.3.1 adds an indexable `/guide`, `/privacy`, `/robots.txt` and `/sitemap.xml`, descriptive metadata and WebApplication microdata. Submit the sitemap in Google Search Console for the verified `charloom.popovich.one` property and inspect the homepage and guide. Indexing and rankings are controlled by search engines.
+
+Hosted Google Analytics uses `G-YLDL8WREEW` only on `charloom.popovich.one`, after explicit opt-in. Declining makes no Google tag requests; local installations do not load it. The Privacy page resets the saved choice. Image data, filenames and generated text are not sent as analytics events. Configure enhanced measurement in GA4 to disable form interactions if enabled; conversion form contents are not intended for analytics. Verify incoming page views in GA4 Realtime after allowing analytics. Public page delivery alone cannot confirm ingestion by the property.

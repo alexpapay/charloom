@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Turn images into expressive text art. A Python-powered ASCII playground with responsive sizes and tonal opacity."><title>Charloom — pixels into characters</title><link rel="icon" type="image/svg+xml" href="/static/favicon.svg"><link rel="stylesheet" href="/static/style.css?v=20260927-demo"><script type="module" src="/static/app.js?v=20260927-demo"></script>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Free image to ASCII art converter. Convert PNG, JPG and WebP to text art with shadows and custom sizes. Export TXT, HTML or JSON."><title>Image to ASCII Art Converter — Free Online | Charloom</title><link rel="icon" type="image/svg+xml" href="/static/favicon.svg"><link rel="stylesheet" href="/static/style.css?v=0.3.1"><script type="module" src="/static/app.js?v=0.3.1"></script>
 <link rel="canonical" href="https://charloom.popovich.one/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Charloom">
@@ -17,9 +17,9 @@
 <meta name="twitter:description" content="Turn images into expressive ASCII art. Free and open source.">
 <meta name="twitter:image" content="https://charloom.popovich.one/static/social-card.png">
 <meta name="twitter:image:alt" content="Charloom terminal-style card with a green ASCII planet.">
-</head>
-<body><div class="terminal">
-<header><a class="brand" href="/">charloom<span>▌</span></a><span class="version">v0.3.0</span><button class="prompt-trigger" id="open-prompt" type="button" aria-haspopup="dialog">AI redraw prompt</button><a class="github" href="https://github.com/alexpapay/charloom">GitHub ↗</a></header>
+<script defer src="/static/analytics.js?v=0.3.1"></script></head>
+<body><div class="terminal" itemscope itemtype="https://schema.org/WebApplication"><meta itemprop="name" content="Charloom"><meta itemprop="url" content="https://charloom.popovich.one/"><meta itemprop="applicationCategory" content="MultimediaApplication"><meta itemprop="operatingSystem" content="Any OS with a modern browser"><meta itemprop="isAccessibleForFree" content="true">
+<header><a class="brand" href="/">charloom<span>▌</span></a><span class="version">v0.3.1</span><button class="prompt-trigger" id="open-prompt" type="button" aria-haspopup="dialog">AI redraw prompt</button><a class="github" href="https://github.com/alexpapay/charloom">GitHub ↗</a></header>
 <main><form id="settings" class="settings"><h2><span>01</span> SOURCE & THREAD</h2>
 <label class="upload" for="source"><strong>↑ Open an image</strong><span id="filename">PNG, JPEG, WebP · up to 8 MB / 16 MP</span><span class="privacy">Images are sent to this server for conversion, processed in memory and not saved. For private work, run Charloom locally.</span><input id="source" type="file" accept="image/png,image/jpeg,image/webp"></label>
 <button class="quiet" id="demo" type="button">↺ Use the orbital demo</button>
@@ -33,13 +33,13 @@
 <button class="primary" type="submit" id="weave">Weave image <span>↵</span></button>
 <p class="settings-note">Contrast, gamma and contours apply when you weave. Color and shadow strength update instantly.</p>
 </section></form>
-<section class="preview" id="preview"><div class="preview-heading"><h2><span>02</span> THE WEAVE</h2><span id="dimensions">LOADING</span></div>
+<section class="preview" id="preview"><div class="preview-heading"><h1><span>02</span> IMAGE TO ASCII ART</h1><span id="dimensions">LOADING</span></div>
 <div class="toolbar"><div class="resolution-row"><div class="sizes" aria-label="Columns"><button type="button" data-width="40" aria-pressed="false">40</button><button type="button" data-width="72" aria-pressed="false">72</button><button type="button" data-width="120" aria-pressed="true">120</button><button type="button" data-width="180" aria-pressed="false">180</button><button type="button" data-width="240" aria-pressed="false">240</button><button type="button" data-width="300" aria-pressed="false">300</button><button type="button" data-width="360" aria-pressed="false">360</button></div><div class="custom-size"><label for="custom-width">Custom</label><input id="custom-width" type="number" min="2" max="400" step="1" value="120" required aria-label="Custom columns (2–400)"><button id="apply-width" type="button">Apply</button></div></div><div class="display-options"><label class="color-label">Ink <input type="color" id="color" value="#69efb2"></label><label class="check"><input type="checkbox" id="bold" checked> Bold</label><label class="check compare-toggle" id="compare-toggle"><input type="checkbox" id="compare" checked> Show original</label></div></div>
 <div class="viewports comparing" id="viewports"><div class="art-viewport"><div id="art-stack"><pre id="plain" aria-hidden="true"></pre><pre id="art" role="img" aria-label="Generated ASCII artwork"></pre></div><p id="empty">Threading the loom…</p></div><figure id="original-pane"><figcaption><span id="original-caption">Original · orbital demo</span></figcaption><img id="original" src="/static/orbital.png" alt="Original orbital demo image"></figure></div>
 <div class="tone-control"><label for="strength">Shadow strength</label><input id="strength" type="range" min="0" max="100" value="70"><output id="strength-value">70%</output></div>
 <p class="hint">0% = classic ASCII. More shadow = richer tones. Same characters, one ink color.</p>
 <p id="status" role="status" aria-live="polite">Starting Charloom…</p>
-<div class="export-bar"><div class="downloads"><button id="txt" type="button" disabled>↓ TXT</button><button id="html" type="button" disabled>↓ HTML + tones</button><button id="json" type="button" disabled title="Download sizes generated with the current settings">↓ JSON / generated</button><button id="copy" type="button" disabled>Copy text</button></div><div class="export-meta"><a href="https://github.com/alexpapay/charloom#quick-start">Run offline</a><span>PYTHON ENGINE / MIT LICENSE</span></div></div>
+<div class="export-bar"><div class="downloads"><button id="txt" type="button" disabled>↓ TXT</button><button id="html" type="button" disabled>↓ HTML + tones</button><button id="json" type="button" disabled title="Download sizes generated with the current settings">↓ JSON / generated</button><button id="copy" type="button" disabled>Copy text</button></div><div class="export-meta"><span><a href="/guide">Guide</a> · <a href="/privacy">Privacy</a></span><a href="https://github.com/alexpapay/charloom#quick-start">Run offline</a><span>PYTHON ENGINE / MIT LICENSE</span></div></div>
 </section></main>
 </div><dialog id="prompt-dialog" aria-labelledby="prompt-title" aria-describedby="prompt-description">
 <div class="prompt-heading"><div><span class="prompt-eyebrow">REDRAW PROMPT</span><h2 id="prompt-title">Bold contours. Clear characters.</h2></div><button id="close-prompt" type="button" aria-label="Close redraw prompt" autofocus>×</button></div>
@@ -52,4 +52,4 @@ Style: bold clean five-tone screen-print portrait: black, dark gray, middle gray
 No text, letters, ASCII characters, grid, halftone, hatching, stippling, fine noisy texture, pencil scratchwork, new expression, caricature, watermark or color tint. Output a single finished illustration.</textarea>
 <div class="prompt-actions"><p id="prompt-status" role="status" aria-live="polite"></p><button class="primary" id="copy-prompt" type="button">Copy prompt</button></div>
 </dialog>
-<span id="measure" aria-hidden="true">0000000000</span></body></html>
+<span id="measure" aria-hidden="true">0000000000</span><div class="analytics-choice" id="analytics-choice" hidden role="region" aria-label="Analytics preferences"><p>Allow Google Analytics to help improve Charloom? Images and filenames are not sent to Analytics. <a href="/privacy">Privacy</a></p><button id="analytics-decline" type="button">Decline</button><button id="analytics-accept" type="button">Allow analytics</button></div></body></html>

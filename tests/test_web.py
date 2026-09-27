@@ -208,3 +208,22 @@ def test_detailed_output_still_has_a_total_cell_budget():
         content=png((40, 40)),
     )
     assert response.status_code == 422
+
+
+def test_search_pages_and_crawler_metadata():
+    for path in ("/", "/guide", "/privacy"):
+        response = client.get(path)
+        assert response.status_code == 200
+        assert "<h1" in response.text
+        assert (
+            f'href="https://charloom.popovich.one{path if path != "/" else "/"}"' in response.text
+        )
+        assert response.headers.get("x-robots-tag") is None
+    assert "Sitemap: https://charloom.popovich.one/sitemap.xml" in client.get("/robots.txt").text
+    assert "https://charloom.popovich.one/guide" in client.get("/sitemap.xml").text
+    assert client.get("/healthz").headers["x-robots-tag"] == "noindex"
+    assert client.get("/static/guide.html").headers["x-robots-tag"] == "noindex"
+    assert client.get("/missing-page").status_code == 404
+    csp = client.get("/").headers["content-security-policy"]
+    assert "script-src 'self' https://www.googletagmanager.com;" in csp
+    assert "object-src 'none'" in csp

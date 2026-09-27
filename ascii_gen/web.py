@@ -31,10 +31,21 @@ async def headers(request: Request, call_next):
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "no-referrer"
     response.headers["Content-Security-Policy"] = (
-        "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; "
-        "img-src 'self' blob: data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
+        "default-src 'self'; script-src 'self' https://www.googletagmanager.com; "
+        "style-src 'self' 'unsafe-inline'; "
+        "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com "
+        "https://www.googletagmanager.com; "
+        "img-src 'self' blob: data: https://*.google-analytics.com "
+        "https://www.googletagmanager.com; "
+        "object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
     )
     response.headers["Cache-Control"] = "no-store"
+    if (
+        request.url.path.startswith("/api/")
+        or request.url.path == "/healthz"
+        or (request.url.path.startswith("/static/") and request.url.path.endswith(".html"))
+    ):
+        response.headers["X-Robots-Tag"] = "noindex"
     return response
 
 
@@ -146,6 +157,30 @@ def health():
 @app.get("/")
 def index():
     return FileResponse(STATIC / "index.html")
+
+
+@app.get("/guide")
+def guide():
+    """Serve the readable conversion guide without requiring JavaScript."""
+    return FileResponse(STATIC / "guide.html")
+
+
+@app.get("/privacy")
+def privacy():
+    """Explain uploads and optional analytics."""
+    return FileResponse(STATIC / "privacy.html")
+
+
+@app.get("/robots.txt")
+def robots():
+    """Expose crawler guidance and the sitemap location."""
+    return FileResponse(STATIC / "robots.txt", media_type="text/plain")
+
+
+@app.get("/sitemap.xml")
+def sitemap():
+    """List canonical public pages."""
+    return FileResponse(STATIC / "sitemap.xml", media_type="application/xml")
 
 
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
