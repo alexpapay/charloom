@@ -212,3 +212,8 @@ input[type=range]::-moz-range-thumb { width: 10px; height: 10px; border: 2px sol
 @media (max-width: 800px) {
   .settings-controls { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-top: 0; padding-top: 16px; border-top: 1px solid var(--line); }
 }
+
+.check { line-height: 16px; }
+.check input { flex: 0 0 16px; align-self: center; }
+.prompt-actions { justify-content: flex-end; }
+#prompt-status:empty { display: none; }

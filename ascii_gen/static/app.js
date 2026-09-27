@@ -117,7 +117,7 @@ async function weave(width = desiredWidth, force = false) {
 }
 
 function compare() {
-  const visible = Boolean(file && $('compare').checked);
+  const visible = $('compare').checked;
   $('original-pane').hidden = !visible;
   $('viewports').classList.toggle('comparing', visible);
   fit();
@@ -127,10 +127,9 @@ function changeSource(next) {
   if (sourceUrl) URL.revokeObjectURL(sourceUrl);
   sourceUrl = next ? URL.createObjectURL(next) : undefined;
   file = next;
-  if (sourceUrl) $('original').src = sourceUrl;
-  else $('original').removeAttribute('src');
-  $('compare').disabled = !next;
-  $('compare-toggle').hidden = !next;
+  $('original').src = sourceUrl || '/static/orbital.png';
+  $('original').alt = next ? 'Original uploaded image' : 'Original orbital demo image';
+  $('original-caption').textContent = next ? 'Original · local preview' : 'Original · orbital demo';
   variants.clear(); cacheKey = undefined; selected = undefined;
   $('art').replaceChildren();
   $('plain').textContent = '';
@@ -190,7 +189,7 @@ document.fonts.ready.then(fit);
 weave();
 
 $('open-prompt').addEventListener('click', () => {
-  $('prompt-status').textContent = 'Preserves proportions. Simplifies tones.';
+  $('prompt-status').textContent = '';
   $('prompt-dialog').showModal();
 });
 $('close-prompt').addEventListener('click', () => $('prompt-dialog').close());

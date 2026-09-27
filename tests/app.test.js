@@ -110,8 +110,6 @@ test('source comparison is local, clears stale artwork and revokes replaced prev
   get('source').listeners.change();
   assert.equal(get('art').children.length,0);
   assert.equal(get('original').src,'blob:test-1');
-  assert.equal(get('compare').disabled,false);
-  assert.equal(get('compare-toggle').hidden,false);
   get('compare').checked=true;
   get('compare').listeners.change();
   assert.equal(get('original-pane').hidden,false);
@@ -124,8 +122,9 @@ test('source comparison is local, clears stale artwork and revokes replaced prev
   get('demo').listeners.click();
   await new Promise(setImmediate);
   assert.deepEqual(revoked,['blob:test-1','blob:test-2']);
-  assert.equal(get('original').src,undefined);
-  assert.equal(get('compare').disabled,true);
-  assert.equal(get('compare-toggle').hidden,true);
+  assert.equal(get('original').src,'/static/orbital.png');
+  assert.equal(get('original-pane').hidden,false);
+  get('compare').checked=false;
+  get('compare').listeners.change();
   assert.equal(get('original-pane').hidden,true);
 });
