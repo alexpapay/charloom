@@ -39,7 +39,7 @@ def test_upload_returns_text_and_opacity_with_preserved_proportions():
 
 
 @pytest.mark.parametrize(
-    "options", [{"widths": [400]}, {"unknown": 1}, {"widths": [True]}, {"gamma": 0}, []]
+    "options", [{"widths": [401]}, {"unknown": 1}, {"widths": [True]}, {"gamma": 0}, []]
 )
 def test_invalid_options_are_rejected(options):
     assert (
@@ -177,7 +177,7 @@ def test_tall_image_keeps_resolutions_that_fit():
     response = client.post(
         "/api/convert",
         params={"options": json.dumps({"widths": [40, 72, 120, 180]})},
-        content=png((400, 1000)),
+        content=png((400, 2000)),
     )
     assert response.status_code == 200
     assert [v["columns"] for v in response.json()["variants"]] == [40, 72, 120]
@@ -189,3 +189,22 @@ def test_huge_numeric_option_is_validation_error():
         client.get("/api/demo", params={"options": json.dumps({"gamma": 10**400})}).status_code
         == 422
     )
+
+
+@pytest.mark.parametrize("width", [240, 300, 360, 337, 400])
+def test_detailed_and_custom_widths_preserve_square_proportions(width):
+    response = client.post(
+        "/api/convert", params={"options": json.dumps({"widths": [width]})}, content=png((40, 40))
+    )
+    assert response.status_code == 200
+    variant = response.json()["variants"][0]
+    assert (variant["columns"], variant["rows"]) == (width, (width + 1) // 2)
+
+
+def test_detailed_output_still_has_a_total_cell_budget():
+    response = client.post(
+        "/api/convert",
+        params={"options": json.dumps({"widths": [300, 360, 400]})},
+        content=png((40, 40)),
+    )
+    assert response.status_code == 422

@@ -64,7 +64,7 @@ uv sync --locked --extra web
 uv run charloom-web
 ```
 
-Open **http://127.0.0.1:4175**. Upload a PNG, JPEG or WebP, tune the conversion, then change columns, ink color and shadow strength instantly. The orbital sample is generated mathematically; no personal photos or third-party demo assets are shipped.
+Open **http://127.0.0.1:4175**. Upload a PNG, JPEG or WebP and tune the conversion. Choose one of seven resolutions or enter 2–400 columns; new sizes are generated on demand and cached sizes switch instantly. Ink, weight and shadows update live. Enable **Show original** for a local source comparison beside the text on desktop, or below it on mobile. The desktop workspace fits the browser height and the artwork scales without distortion. The orbital sample is generated mathematically; no personal photos or third-party demo assets are shipped.
 
 The hosted playground **sends the selected image to its server**. Uploads are processed in memory and are not saved by the application. Requests are limited to 8 MiB, 16 megapixels and bounded output grids. Run locally or use the CLI for private/offline work. Hosting infrastructure may retain ordinary request logs; image bodies are not logged by Charloom.
 

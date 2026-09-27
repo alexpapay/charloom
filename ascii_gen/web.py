@@ -45,8 +45,8 @@ def parse_options(value: str) -> Options:
             raise ValueError("Options are too long")
         options = Options(**json.loads(value))
         options.validate()
-        if len(options.widths) > 6 or max(options.widths) > 180:
-            raise ValueError("Playground supports up to 6 sizes, at most 180 columns")
+        if len(options.widths) > 6:
+            raise ValueError("Playground supports up to 6 sizes, at most 400 columns")
         return options
     except (ValueError, TypeError) as error:
         raise HTTPException(422, str(error)) from error
@@ -63,11 +63,11 @@ def convert(image: Image.Image, options: Options) -> dict:
         max(1, math.floor(width / aspect * options.character_aspect + 0.5))
         for width in options.widths
     ]
-    retained = tuple(w for w, r in zip(options.widths, rows, strict=True) if r <= 180)
+    retained = tuple(w for w, r in zip(options.widths, rows, strict=True) if r <= 400)
     skipped = [w for w in options.widths if w not in retained]
     if (
         not retained
-        or sum(w * r for w, r in zip(options.widths, rows, strict=True) if w in retained) > 60_000
+        or sum(w * r for w, r in zip(options.widths, rows, strict=True) if w in retained) > 80_000
     ):
         raise ValueError("Output is too tall or large; use fewer columns or crop the image")
     options = replace(options, widths=retained)

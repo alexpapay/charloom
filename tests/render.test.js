@@ -1,6 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { opacity, exportHtml } from '../ascii_gen/static/render.js';
+import { opacity, exportHtml, fitCells, frameScheduler } from '../ascii_gen/static/render.js';
+test('art fits width and height while preserving physical proportions', () => {
+  for (const [width,height] of [[300,200],[1200,350],[140,600]]) {
+    const {cellWidth,lineHeight}=fitCells(width,height,360,180,.5);
+    assert.ok(cellWidth*360 <= width);
+    assert.ok(lineHeight*180 <= height);
+    assert.equal(cellWidth/lineHeight,.5);
+  }
+});
+test('rapid shadow input applies only the newest value once per frame', () => {
+  const frames=[], values=[];
+  const schedule=frameScheduler(value=>values.push(value), callback=>frames.push(callback));
+  for(let value=0;value<=100;value++)schedule(value);
+  assert.equal(frames.length,1);
+  frames.shift()();
+  assert.deepEqual(values,[100]);
+  schedule(30);frames.shift()();assert.deepEqual(values,[100,30]);
+});
 test('opacity has a neutral setting and bounded masked shadows',()=>{
   assert.equal(opacity(51,0),1); assert.equal(opacity(0,70),0);
   assert.equal(opacity(255,100),1); assert.ok(opacity(80,70)<opacity(180,70));

@@ -3,6 +3,21 @@ export function opacity(tone, strength) {
   return tone === 0 ? 0 : 1 - strength / 100 * (1 - tone / 255);
 }
 
+export function fitCells(width, height, columns, rows, aspect) {
+  const cellWidth = Math.max(0, Math.min(width / columns, height * aspect / rows));
+  return { cellWidth, lineHeight: cellWidth / aspect };
+}
+
+export function frameScheduler(apply, requestFrame = requestAnimationFrame) {
+  let pending = false, latest;
+  return value => {
+    latest = value;
+    if (pending) return;
+    pending = true;
+    requestFrame(() => { pending = false; apply(latest); });
+  };
+}
+
 export function runs(variant) {
   const lines = variant.text.replace(/\n$/, '').split('\n');
   return lines.map((line, y) => {
