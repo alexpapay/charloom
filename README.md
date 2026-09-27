@@ -64,7 +64,7 @@ uv sync --locked --extra web
 uv run charloom-web
 ```
 
-Open **http://127.0.0.1:4175**. Upload a PNG, JPEG or WebP and tune the conversion. Choose one of seven resolutions or enter 2–400 columns; new sizes are generated on demand and cached sizes switch instantly. Ink, weight and shadows update live. Enable **Show original** for a local source comparison beside the text on desktop, or below it on mobile. The desktop workspace fits the browser height and the artwork scales without distortion. The orbital sample is generated mathematically; no personal photos or third-party demo assets are shipped.
+Open **http://127.0.0.1:4175**. Upload a PNG, JPEG or WebP and tune the conversion. Choose one of seven resolutions or enter 2–400 columns; new sizes are generated on demand and cached sizes switch instantly. Ink, weight and shadows update live. The orbital demo opens with its source visible. Toggle **Show original** for a local source comparison beside the text on desktop, or below it on mobile. The desktop workspace fits the browser height and the artwork scales without distortion. The orbital sample is generated mathematically; no personal photos or third-party demo assets are shipped.
 
 The hosted playground **sends the selected image to its server**. Uploads are processed in memory and are not saved by the application. Requests are limited to 8 MiB, 16 megapixels and bounded output grids. Run locally or use the CLI for private/offline work. Hosting infrastructure may retain ordinary request logs; image bodies are not logged by Charloom.
 
@@ -112,3 +112,12 @@ Bug reports, character palettes and examples are welcome. Read [CONTRIBUTING.md]
 Charloom grew out of the text-only website [popovich.one](https://github.com/alexpapay/popovich.one). It now lives independently; the website only consumes generated text.
 
 MIT © 2026 alexpapay. Built with [Pillow](https://pillow.readthedocs.io/), [NumPy](https://numpy.org/), and optionally [FastAPI](https://fastapi.tiangolo.com/) / [Uvicorn](https://www.uvicorn.org/). Dependencies retain their own licenses.
+
+## What's new in 0.3.0
+
+- A compact desktop workspace with proportional artwork fitting and a separate settings section.
+- Side-by-side source comparison on desktop, stacked on mobile; the orbital demo includes its exact source image.
+- Seven preset widths and custom widths from 2 to 400 columns, generated on demand.
+- Smooth shadow adjustments without rebuilding the character grid.
+- An optional AI redraw prompt with one-click copying.
+- Improved upload concurrency limits and playground layout polish.
