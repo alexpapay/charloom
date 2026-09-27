@@ -112,6 +112,8 @@ input[type=range]::-moz-range-thumb { width: 10px; height: 10px; border: 2px sol
 .sizes { min-width: 0; }
 .sizes button { min-width: 0; padding: 6px 10px; }
 #status { overflow-wrap: anywhere; }
+.settings-controls { display: flex; flex-direction: column; gap: inherit; min-width: 0; margin-top: auto; padding-top: 16px; }
+.settings-controls h2 { padding-bottom: 4px; }
 @media (min-width: 801px) {
   .terminal { height: calc(100dvh - 24px); display: flex; flex-direction: column; }
   header { flex: none; }
@@ -148,8 +150,8 @@ input[type=range]::-moz-range-thumb { width: 10px; height: 10px; border: 2px sol
   .sizes button { padding: 6px 8px; }
 }
 @media (min-width: 801px) and (max-height: 700px) {
-  .settings { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-content: start; gap: 6px 10px; }
-  .settings > * { grid-column: 1 / -1; }
+  .settings-controls { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-content: start; gap: 6px 10px; padding-top: 8px; }
+  .settings-controls > * { grid-column: 1 / -1; }
   .settings label:has(#contrast), .settings label:has(#gamma) { grid-column: auto; }
   .settings-note { display: none; }
   .upload { padding: 6px; }
@@ -205,4 +207,8 @@ input[type=range]::-moz-range-thumb { width: 10px; height: 10px; border: 2px sol
   #prompt-dialog { padding: 16px; }
   .prompt-heading h2 { font-size: 17px; }
   .prompt-actions { align-items: stretch; flex-direction: column; gap: 8px; }
+}
+
+@media (max-width: 800px) {
+  .settings-controls { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-top: 0; padding-top: 16px; border-top: 1px solid var(--line); }
 }

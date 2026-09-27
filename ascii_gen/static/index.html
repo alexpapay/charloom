@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Turn images into expressive text art. A Python-powered ASCII playground with responsive sizes and tonal opacity."><title>Charloom — pixels into characters</title><link rel="icon" type="image/svg+xml" href="/static/favicon.svg"><link rel="stylesheet" href="/static/style.css?v=20260927-prompt"><script type="module" src="/static/app.js?v=20260927-prompt"></script>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Turn images into expressive text art. A Python-powered ASCII playground with responsive sizes and tonal opacity."><title>Charloom — pixels into characters</title><link rel="icon" type="image/svg+xml" href="/static/favicon.svg"><link rel="stylesheet" href="/static/style.css?v=20260927-settings"><script type="module" src="/static/app.js?v=20260927-settings"></script>
 <link rel="canonical" href="https://charloom.popovich.one/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Charloom">
@@ -23,6 +23,7 @@
 <main><form id="settings" class="settings"><h2><span>01</span> SOURCE & THREAD</h2>
 <label class="upload" for="source"><strong>↑ Open an image</strong><span id="filename">PNG, JPEG, WebP · up to 8 MB / 16 MP</span><span class="privacy">Images are sent to this server for conversion, processed in memory and not saved. For private work, run Charloom locally.</span><input id="source" type="file" accept="image/png,image/jpeg,image/webp"></label>
 <button class="quiet" id="demo" type="button">↺ Use the orbital demo</button>
+<section class="settings-controls" aria-labelledby="settings-title"><h2 id="settings-title"><span>03</span> WEAVE SETTINGS</h2>
 <label>Character palette<select id="palette"><option value=" .:;+*x%#08@">Portrait / letters & numbers</option><option value=" .:-=+*#%@">Classic / symbols</option><option value=" .,:;i1tfLCG08@">Fine / mixed characters</option></select></label>
 <label>Contrast <output id="contrast-value">1.00</output><input id="contrast" type="range" min="0.5" max="2" step="0.05" value="1"></label>
 <label>Gamma <output id="gamma-value">1.00</output><input id="gamma" type="range" min="0.4" max="1.8" step="0.05" value="1"></label>
@@ -31,7 +32,7 @@
 <label class="check"><input type="checkbox" id="invert"> Invert light & shadow</label>
 <button class="primary" type="submit" id="weave">Weave image <span>↵</span></button>
 <p class="settings-note">Contrast, gamma and contours apply when you weave. Color and shadow strength update instantly.</p>
-</form>
+</section></form>
 <section class="preview" id="preview"><div class="preview-heading"><h2><span>02</span> THE WEAVE</h2><span id="dimensions">LOADING</span></div>
 <div class="toolbar"><div class="resolution-row"><div class="sizes" aria-label="Columns"><button type="button" data-width="40" aria-pressed="false">40</button><button type="button" data-width="72" aria-pressed="false">72</button><button type="button" data-width="120" aria-pressed="true">120</button><button type="button" data-width="180" aria-pressed="false">180</button><button type="button" data-width="240" aria-pressed="false">240</button><button type="button" data-width="300" aria-pressed="false">300</button><button type="button" data-width="360" aria-pressed="false">360</button></div><div class="custom-size"><label for="custom-width">Custom</label><input id="custom-width" type="number" min="2" max="400" step="1" value="120" required aria-label="Custom columns (2–400)"><button id="apply-width" type="button">Apply</button></div></div><div class="display-options"><label class="color-label">Ink <input type="color" id="color" value="#69efb2"></label><label class="check"><input type="checkbox" id="bold" checked> Bold</label><label class="check compare-toggle" id="compare-toggle" hidden><input type="checkbox" id="compare" disabled> Show original</label></div></div>
 <div class="viewports" id="viewports"><div class="art-viewport"><div id="art-stack"><pre id="plain" aria-hidden="true"></pre><pre id="art" role="img" aria-label="Generated ASCII artwork"></pre></div><p id="empty">Threading the loom…</p></div><figure id="original-pane" hidden><figcaption>Original · local preview</figcaption><img id="original" alt="Original uploaded image"></figure></div>
