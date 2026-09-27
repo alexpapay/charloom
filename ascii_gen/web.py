@@ -22,6 +22,7 @@ MAX_PIXELS = 16_000_000
 STATIC = Path(__file__).with_name("static")
 app = FastAPI(title="Charloom", docs_url=None, redoc_url=None, openapi_url=None)
 slots = asyncio.Semaphore(2)
+upload_slots = asyncio.Semaphore(4)
 
 
 @app.middleware("http")
@@ -100,7 +101,10 @@ async def upload(request: Request, options: str = "{}"):
     settings = parse_options(options)
     if slots.locked():
         raise HTTPException(503, "Converter is busy. Please try again shortly.")
-    async with slots:
+    if upload_slots.locked():
+        raise HTTPException(503, "Converter is busy. Please try again shortly.")
+
+    async with upload_slots:
         content = bytearray()
         try:
             async with asyncio.timeout(20):
@@ -110,6 +114,10 @@ async def upload(request: Request, options: str = "{}"):
                     content.extend(chunk)
         except TimeoutError as error:
             raise HTTPException(408, "Upload timed out") from error
+
+    if slots.locked():
+        raise HTTPException(503, "Converter is busy. Please try again shortly.")
+    async with slots:
         return await run_in_threadpool(decode, bytes(content), settings)
 
 

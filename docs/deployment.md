@@ -28,7 +28,7 @@ An example for `charloom.popovich.one` is in [deploy/nginx.conf](../deploy/nginx
 4. Install the complete proxy example, run `nginx -t`, then reload nginx.
 5. Verify HTTPS, `/healthz`, the orbital demo and a small synthetic upload externally. Ensure certificate renewal reloads nginx.
 
-The example limits API traffic by the connection's source address. Behind a CDN this may represent a shared edge; only configure forwarded client IP handling using that CDN's documented trusted networks. Do not trust arbitrary client-supplied IP headers.
+The example limits API request rate and concurrent uploads globally and by the connection's source address. Behind a CDN this may represent a shared edge; only configure forwarded client IP handling using that CDN's documented trusted networks. Do not trust arbitrary client-supplied IP headers.
 
 ## Updates and rollback
 
