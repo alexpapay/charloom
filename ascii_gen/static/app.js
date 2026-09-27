@@ -130,6 +130,7 @@ function changeSource(next) {
   if (sourceUrl) $('original').src = sourceUrl;
   else $('original').removeAttribute('src');
   $('compare').disabled = !next;
+  $('compare-toggle').hidden = !next;
   variants.clear(); cacheKey = undefined; selected = undefined;
   $('art').replaceChildren();
   $('plain').textContent = '';
@@ -187,3 +188,19 @@ $('copy').addEventListener('click', async () => {
 new ResizeObserver(fit).observe($('art-stack').parentElement);
 document.fonts.ready.then(fit);
 weave();
+
+$('open-prompt').addEventListener('click', () => {
+  $('prompt-status').textContent = 'Preserves proportions. Simplifies tones.';
+  $('prompt-dialog').showModal();
+});
+$('close-prompt').addEventListener('click', () => $('prompt-dialog').close());
+$('copy-prompt').addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText($('redraw-prompt').value);
+    $('prompt-status').textContent = 'Prompt copied. Ready for your image editor.';
+  } catch {
+    $('redraw-prompt').focus();
+    $('redraw-prompt').select();
+    $('prompt-status').textContent = 'Select and copy the prompt manually.';
+  }
+});

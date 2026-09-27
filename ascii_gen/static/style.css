@@ -184,3 +184,25 @@ input[type=range]::-moz-range-thumb { width: 10px; height: 10px; border: 2px sol
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
 }
+.prompt-trigger { margin-left: auto; color: var(--ink); font-size: 12px; background: transparent; }
+.prompt-trigger + .github { margin-left: 0; }
+#prompt-dialog { width: min(720px, calc(100% - 32px)); max-height: calc(100dvh - 32px); padding: 24px; border: 1px solid var(--ink); border-radius: 6px; background: var(--bg); color: var(--text); box-shadow: 0 24px 100px #0008; }
+#prompt-dialog[open] { display: flex; flex-direction: column; gap: 16px; }
+#prompt-dialog::backdrop { background: #020806d9; }
+.prompt-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.prompt-heading h2 { font-size: 20px; letter-spacing: -.5px; margin-top: 6px; }
+.prompt-eyebrow { color: var(--ink); font-size: 11px; letter-spacing: 1px; }
+#close-prompt { flex: none; font-size: 22px; width: 42px; height: 42px; padding: 0; }
+#prompt-description, #prompt-status { font-size: 12px; }
+.prompt-label { font-size: 12px; color: var(--ink); }
+#redraw-prompt { flex: 1 1 300px; min-height: 100px; width: 100%; resize: none; padding: 16px; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); color: var(--text); font: 12px/1.7 var(--ui-font); }
+.prompt-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.prompt-actions button { flex: none; }
+@media (max-width: 800px) {
+  header { flex-wrap: wrap; gap: 8px 12px; }
+  .prompt-trigger { order: 4; width: 100%; }
+  .prompt-trigger + .github { margin-left: auto; }
+  #prompt-dialog { padding: 16px; }
+  .prompt-heading h2 { font-size: 17px; }
+  .prompt-actions { align-items: stretch; flex-direction: column; gap: 8px; }
+}
