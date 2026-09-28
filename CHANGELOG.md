@@ -2,6 +2,8 @@
 
 ## 0.6.1 — 2026-09-28
 
+- Simplify custom PNG sizing to one longest-edge field, compact footer links and prevent select focus outlines from overlapping labels.
+
 - Reduce the upload privacy note size.
 
 - Add Reset settings for the palette and image adjustments, refreshing the live preview while retaining the source, resolution and artwork colors.

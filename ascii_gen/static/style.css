@@ -245,3 +245,10 @@ h1 span { color: var(--yellow); margin-right: 8px; }
 .settings .settings-heading button { min-height: 28px; padding: 4px 6px; font-size: 10px; white-space: nowrap; background: transparent; }
 
 #status:empty { display: none; }
+
+select:focus-visible { outline-offset: -2px; }
+.export-dialog > label:not(.check) { display: grid; gap: 8px; }
+.export-links { white-space: nowrap; }
+#custom-image-size { gap: 10px; }
+#custom-image-size label { margin-right: auto; }
+#custom-image-size input { flex: 0 0 90px; }

@@ -234,7 +234,7 @@ $('png').addEventListener('click', async () => {
 function imageSize() {
   const custom = $('image-size').value === 'custom';
   return { edge: Number(custom ? $('image-edge').value : $('image-size').value),
-    axis: custom ? $('image-axis').value : 'longest' };
+    axis: 'longest' };
 }
 function updateImageSize() {
   $('custom-image-size').hidden = $('image-size').value !== 'custom';
@@ -251,7 +251,7 @@ function updateImageSize() {
     return false;
   }
 }
-for (const id of ['image-size', 'image-axis', 'image-edge'])
+for (const id of ['image-size', 'image-edge'])
   $(id).addEventListener('input', updateImageSize);
 
 let previewTimer, previewBusy = false, previewRevision = 0, processedUrl;
