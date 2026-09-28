@@ -1,7 +1,7 @@
-import { runs, exportHtml, fitCells, frameScheduler } from './render.js';
+import { runs, exportHtml, fitCells, frameScheduler, paintImage } from './render.js';
 
 const $ = id => document.getElementById(id);
-const downloads = ['txt', 'html', 'json', 'copy'];
+const downloads = ['txt', 'html', 'json', 'copy', 'export-text', 'export-image', 'png'];
 const controls = ['source', 'demo', 'weave', 'apply-width', 'custom-width'];
 let result, selected, file, sourceUrl, controller, cacheKey;
 let desiredWidth = 120, requestId = 0;
@@ -19,7 +19,7 @@ function options() {
 }
 
 function settings() {
-  return { color: $('color').value, strength: Number($('strength').value),
+  return { color: $('color').value, background: $('art-background').value, strength: Number($('strength').value),
     bold: $('bold').checked, aspect: result.options.character_aspect };
 }
 
@@ -173,7 +173,7 @@ $('custom-width').addEventListener('keydown', event => {
 });
 $('compare').addEventListener('change', compare);
 $('strength').addEventListener('input', () => shade(Number($('strength').value)));
-$('color').addEventListener('input', () => document.documentElement.style.setProperty('--ink', $('color').value));
+$('color').addEventListener('input', () => $('art-stack').style.color = $('color').value);
 $('bold').addEventListener('change', fit);
 $('txt').addEventListener('click', () => save(selected.text, 'charloom-' + selected.columns + '.txt', 'text/plain;charset=utf-8'));
 $('json').addEventListener('click', () => save(JSON.stringify({ ...result,
@@ -181,8 +181,8 @@ $('json').addEventListener('click', () => save(JSON.stringify({ ...result,
 }, null, 2), 'charloom.json', 'application/json'));
 $('html').addEventListener('click', () => save(exportHtml(selected, settings()), 'charloom-' + selected.columns + '.html', 'text/html;charset=utf-8'));
 $('copy').addEventListener('click', async () => {
-  try { await navigator.clipboard.writeText(selected.text); status('Text copied.'); }
-  catch { status('Clipboard unavailable. Use the TXT download instead.', true); }
+  try { await navigator.clipboard.writeText(selected.text); $('text-export-status').textContent = 'Text copied.'; }
+  catch { $('text-export-status').textContent = 'Clipboard unavailable. Use TXT instead.'; }
 });
 new ResizeObserver(fit).observe($('art-stack').parentElement);
 document.fonts.ready.then(fit);
@@ -202,4 +202,31 @@ $('copy-prompt').addEventListener('click', async () => {
     $('redraw-prompt').select();
     $('prompt-status').textContent = 'Select and copy the prompt manually.';
   }
+});
+
+$('art-background').addEventListener('input', () => {
+  $('art-stack').parentElement.style.backgroundColor = $('art-background').value;
+});
+for (const kind of ['text', 'image']) {
+  $('export-' + kind).addEventListener('click', () => {
+    $(kind + '-export-status').textContent = '';
+    $(kind + '-dialog').showModal();
+  });
+  $('close-' + kind).addEventListener('click', () => $(kind + '-dialog').close());
+}
+$('png').addEventListener('click', async () => {
+  if (!selected) return;
+  const variant = selected, config = { ...settings(), transparent: $('transparent').checked };
+  $('png').disabled = true;
+  try {
+    await document.fonts.ready;
+    const canvas = document.createElement('canvas');
+    paintImage(canvas, variant, config);
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    if (!blob) throw new Error('PNG export failed. Try fewer columns.');
+    save(blob, 'charloom-' + variant.columns + '.png', 'image/png');
+    $('image-export-status').textContent = 'PNG ready. Check your downloads.';
+  } catch (error) {
+    $('image-export-status').textContent = error.message || 'PNG export failed.';
+  } finally { $('png').disabled = false; }
 });

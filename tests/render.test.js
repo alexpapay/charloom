@@ -27,3 +27,24 @@ test('HTML export escapes characters and carries physical cell proportions',()=>
   assert.ok(html.includes('&lt;')); assert.ok(html.includes('&amp;')); assert.ok(html.includes('&gt;'));
   assert.ok(html.includes('line-height:2ch')); assert.ok(!html.includes('<script'));
 });
+
+
+test('PNG painting preserves proportions, masks and background choice', async () => {
+  const { paintImage } = await import('../ascii_gen/static/render.js');
+  const fills = [], glyphs = [];
+  const ctx = { measureText: () => ({width:60}), fillRect: (...args) => fills.push(args),
+    fillText(char,x,y) { glyphs.push({char,x,y,alpha:this.globalAlpha,color:this.fillStyle}); } };
+  const canvas = {getContext: () => ctx};
+  const variant = {columns:2, rows:1, text:'AB', tones:[[0,128]]};
+  const config = {color:'#123456',background:'#abcdef',strength:100,bold:true,aspect:.5,transparent:true};
+  paintImage(canvas,variant,config);
+  assert.equal(canvas.width,2048);
+  assert.equal(canvas.height,2048);
+  assert.equal(fills.length,0);
+  assert.equal(glyphs.length,1);
+  assert.equal(glyphs[0].char,'B');
+  assert.equal(glyphs[0].color,'#123456');
+  assert.equal(glyphs[0].alpha,128/255);
+  paintImage(canvas,variant,{...config,transparent:false});
+  assert.equal(fills.length,1);
+});

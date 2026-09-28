@@ -127,3 +127,7 @@ MIT © 2026 alexpapay. Built with [Pillow](https://pillow.readthedocs.io/), [Num
 Version 0.3.1 adds an indexable `/guide`, `/privacy`, `/robots.txt` and `/sitemap.xml`, descriptive metadata and WebApplication microdata. Submit the sitemap in Google Search Console for the verified `charloom.popovich.one` property and inspect the homepage and guide. Indexing and rankings are controlled by search engines.
 
 Hosted Google Analytics uses `G-YLDL8WREEW` only on `charloom.popovich.one`, after explicit opt-in. Declining makes no Google tag requests; local installations do not load it. The Privacy page resets the saved choice. Image data, filenames and generated text are not sent as analytics events. Configure enhanced measurement in GA4 to disable form interactions if enabled; conversion form contents are not intended for analytics. Verify incoming page views in GA4 Realtime after allowing analytics. Public page delivery alone cannot confirm ingestion by the property.
+
+## Export updates in 0.4.0
+
+Use **Export text** for TXT, HTML + tones, generated JSON or clipboard copy. **Export image** downloads a PNG with a transparent or selected background at a 2048-pixel longest edge. Both ink and background apply only to the artwork. PNG generation runs locally in the browser. See [CHANGELOG.md](CHANGELOG.md) for version history.
