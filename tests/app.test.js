@@ -27,12 +27,12 @@ async function playground() {
       createElement: element, createTextNode: text => ({ textContent: text }),
       fonts: { ready: Promise.resolve() },
     },
-    ResizeObserver: class { observe() {} }, AbortController,
+    ResizeObserver: class { observe() {} }, AbortController, AbortSignal, setTimeout, clearTimeout,
     URL: { createObjectURL: () => 'blob:test-' + ++objectId, revokeObjectURL: url => revoked.push(url) },
     fetch: async url => {
       const options = JSON.parse(new URL(url, 'http://test').searchParams.get('options'));
       requests.push(options);
-      return { ok: true, json: async () => ({
+      return { ok: true, blob: async () => ({}), json: async () => ({
         options: { ...options, character_aspect: .5 },
         variants: options.widths.map(columns => ({ columns, rows: 1, text: 'x'.repeat(columns),
           tones: [Array.from({length: columns}, (_,x) => x%256)] })),
@@ -127,4 +127,23 @@ test('source comparison is local, clears stale artwork and revokes replaced prev
   get('compare').checked=false;
   get('compare').listeners.change();
   assert.equal(get('original-pane').hidden,true);
+});
+
+
+test('tone inputs automatically show processed preview and original remains available', async () => {
+  const {get,requests} = await playground();
+  get('gamma').value='1.4';
+  get('gamma').listeners.input();
+  get('gamma').value='1.5';
+  get('gamma').listeners.input();
+  assert.equal(get('preview-mode').value,'processed');
+  assert.equal(get('compare').checked,true);
+  assert.equal(get('preview-toggle').hidden,false);
+  await new Promise(resolve=>setTimeout(resolve,600));
+  assert.equal(requests.length,2);
+  assert.equal(requests[1].gamma,1.5);
+  assert.equal(get('original').src,'blob:test-1');
+  get('preview-mode').value='original';
+  get('preview-mode').listeners.change();
+  assert.equal(get('original').src,'/static/orbital.png');
 });

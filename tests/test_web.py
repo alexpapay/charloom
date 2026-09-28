@@ -227,3 +227,23 @@ def test_search_pages_and_crawler_metadata():
     csp = client.get("/").headers["content-security-policy"]
     assert "script-src 'self' https://www.googletagmanager.com;" in csp
     assert "object-src 'none'" in csp
+
+
+def test_live_preview_is_bounded_png_and_uses_tone_controls():
+    source = io.BytesIO()
+    Image.new("RGB", (800, 400), (64, 64, 64)).save(source, format="PNG")
+    response = client.post("/api/convert?preview=true", content=source.getvalue())
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "image/png"
+    with Image.open(io.BytesIO(response.content)) as image:
+        assert image.size == (512, 256)
+        normal = image.getpixel((100, 100))[0]
+    inverted = client.post(
+        "/api/convert",
+        params={"preview": "true", "options": '{"invert":true}'},
+        content=source.getvalue(),
+    )
+    with Image.open(io.BytesIO(inverted.content)) as image:
+        assert image.getpixel((100, 100))[0] == 255 - normal
+    assert client.get("/api/demo?preview=true").headers["content-type"] == "image/png"
+    assert client.post("/api/convert?preview=true", content=b"bad").status_code == 422

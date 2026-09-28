@@ -8,7 +8,7 @@ from dataclasses import asdict, replace
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from PIL import Image, UnidentifiedImageError
 from starlette.concurrency import run_in_threadpool
@@ -16,6 +16,7 @@ from starlette.concurrency import run_in_threadpool
 from .demo import orbit
 from .generator import generate
 from .models import Options
+from .preview import preview_png
 
 MAX_BYTES = 8 * 1024 * 1024
 MAX_PIXELS = 16_000_000
@@ -95,9 +96,11 @@ def convert(image: Image.Image, options: Options) -> dict:
     }
 
 
-def decode(content: bytes, options: Options) -> dict:
+def decode(content: bytes, options: Options, preview: bool = False) -> dict | Response:
     try:
         with Image.open(io.BytesIO(content), formats=("JPEG", "PNG", "WEBP")) as image:
+            if preview:
+                return Response(preview_png(image, options), media_type="image/png")
             return convert(image, options)
     except (OSError, ValueError, UnidentifiedImageError, Image.DecompressionBombError) as error:
         raise HTTPException(
@@ -108,7 +111,7 @@ def decode(content: bytes, options: Options) -> dict:
 
 
 @app.post("/api/convert")
-async def upload(request: Request, options: str = "{}"):
+async def upload(request: Request, options: str = "{}", preview: bool = False):
     settings = parse_options(options)
     if slots.locked():
         raise HTTPException(503, "Converter is busy. Please try again shortly.")
@@ -129,17 +132,21 @@ async def upload(request: Request, options: str = "{}"):
     if slots.locked():
         raise HTTPException(503, "Converter is busy. Please try again shortly.")
     async with slots:
+        if preview:
+            return await run_in_threadpool(decode, bytes(content), settings, True)
         return await run_in_threadpool(decode, bytes(content), settings)
 
 
 @app.get("/api/demo")
-async def demo(options: str = "{}"):
+async def demo(options: str = "{}", preview: bool = False):
     settings = parse_options(options)
     if slots.locked():
         raise HTTPException(503, "Converter is busy. Please try again shortly.")
 
     def build():
         with orbit() as image:
+            if preview:
+                return Response(preview_png(image, settings), media_type="image/png")
             return convert(image, settings)
 
     async with slots:

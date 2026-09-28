@@ -131,3 +131,7 @@ Hosted Google Analytics uses `G-YLDL8WREEW` only on `charloom.popovich.one`, aft
 ## Export updates in 0.4.0
 
 Use **Export text** for TXT, HTML + tones, generated JSON or clipboard copy. **Export image** downloads a PNG with a transparent or selected background at a selected size (1024, 2048 or 4096 pixels on the longest edge, or a custom width or height). Both ink and background apply only to the artwork. PNG generation runs locally in the browser. See [CHANGELOG.md](CHANGELOG.md) for version history.
+
+## Live tonal preview
+
+Changing contrast, gamma, contours, inversion or background removal shows a processed preview after a short pause. Original / Processed compares it with the source. ASCII updates with Weave image. The preview uses shared tone processing at up to 512 pixels; contour detail can differ from the lower-resolution character grid. Uploads are sent again for each preview update and remain subject to the same upload and concurrency limits. The optional `preview=true` query parameter on `/api/convert` and `/api/demo` returns PNG; omitted or false keeps the existing JSON response.

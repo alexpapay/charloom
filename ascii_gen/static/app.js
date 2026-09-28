@@ -127,6 +127,7 @@ function changeSource(next) {
   if (sourceUrl) URL.revokeObjectURL(sourceUrl);
   sourceUrl = next ? URL.createObjectURL(next) : undefined;
   file = next;
+  resetPreview();
   $('original').src = sourceUrl || '/static/orbital.png';
   $('original').alt = next ? 'Original uploaded image' : 'Original orbital demo image';
   $('original-caption').textContent = next ? 'Original · local preview' : 'Original · orbital demo';
@@ -158,9 +159,6 @@ $('demo').addEventListener('click', () => {
   $('source').value = ''; $('filename').textContent = 'Orbital demo / generated mathematically';
   changeSource(undefined);
 });
-for (const name of ['contrast', 'gamma', 'edge']) {
-  $(name).addEventListener('input', () => $(name + '-value').textContent = Number($(name).value).toFixed(2));
-}
 document.querySelectorAll('[data-width]').forEach(button => {
   button.addEventListener('click', () => weave(Number(button.dataset.width)));
 });
@@ -255,3 +253,64 @@ function updateImageSize() {
 }
 for (const id of ['image-size', 'image-axis', 'image-edge'])
   $(id).addEventListener('input', updateImageSize);
+
+let previewTimer, previewBusy = false, previewRevision = 0, processedUrl;
+function resetPreview() {
+  clearTimeout(previewTimer);
+  previewRevision++;
+  if (processedUrl) URL.revokeObjectURL(processedUrl);
+  processedUrl = undefined;
+  $('preview-toggle').hidden = true;
+  $('preview-mode').value = 'original';
+}
+function showPreview() {
+  const processed = $('preview-mode').value === 'processed';
+  $('original').src = processed && processedUrl ? processedUrl : sourceUrl || '/static/orbital.png';
+  $('original').alt = processed && processedUrl ? 'Processed tonal preview' : 'Original image';
+  $('original-caption').textContent = processed ? (processedUrl ? 'Live tonal preview' : 'Updating preview…') : (file ? 'Original · local preview' : 'Original · orbital demo');
+}
+function schedulePreview() {
+  previewRevision++;
+  $('preview-toggle').hidden = false;
+  $('preview-mode').value = 'processed';
+  $('compare').checked = true;
+  $('original-caption').textContent = 'Updating preview…';
+  compare();
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(refreshPreview, 500);
+}
+async function refreshPreview() {
+  if (previewBusy) return;
+  previewBusy = true;
+  const revision = previewRevision;
+  $('original-caption').textContent = 'Updating preview…';
+  try {
+    const url = '/api/' + (file ? 'convert' : 'demo') + '?preview=true&options=' +
+      encodeURIComponent(JSON.stringify({...options(), widths: [120]}));
+    const response = await fetch(url, {method: file ? 'POST' : 'GET', body: file, signal: AbortSignal.timeout(25000)});
+    if (!response.ok) throw new Error('Preview unavailable. Adjust a setting to retry.');
+    const blob = await response.blob();
+    if (revision !== previewRevision) return;
+    if (processedUrl) URL.revokeObjectURL(processedUrl);
+    processedUrl = URL.createObjectURL(blob);
+    showPreview();
+  } catch (error) {
+    if (revision === previewRevision) $('original-caption').textContent = error.message;
+  } finally {
+    previewBusy = false;
+    if (revision !== previewRevision && !$('preview-toggle').hidden) {
+      clearTimeout(previewTimer);
+      previewTimer = setTimeout(refreshPreview, 500);
+    }
+  }
+}
+for (const name of ['contrast', 'gamma', 'edge', 'background', 'invert'])
+  $(name).addEventListener('change', schedulePreview);
+for (const name of ['contrast', 'gamma', 'edge']) {
+  const updateValue = $(name + '-value');
+  $(name).addEventListener('input', () => {
+    updateValue.textContent = Number($(name).value).toFixed(2);
+    schedulePreview();
+  });
+}
+$('preview-mode').addEventListener('change', showPreview);

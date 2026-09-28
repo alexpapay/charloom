@@ -236,3 +236,5 @@ h1 span { color: var(--yellow); margin-right: 8px; }
 .export-dialog p { font-size: 12px; }
 .export-dialog .downloads { display: grid; grid-template-columns: 1fr 1fr; }
 .export-dialog [role=status]:empty { display: none; }
+#original-pane figcaption { right: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+#preview-toggle select { width: auto; min-height: 28px; padding: 3px 6px; font-size: 11px; }

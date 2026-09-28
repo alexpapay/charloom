@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0 — 2026-09-28
+
+- Add live tonal previews and Original / Processed comparison when image adjustments change.
+- Reuse Python tone processing with 512-pixel previews, serialized debounced requests and stale-response protection.
+- Keep ASCII regeneration explicit through Weave image.
+
 ## 0.5.0 — 2026-09-28
 
 - Add PNG size presets at 1024, 2048 and 4096 pixels.
