@@ -2,6 +2,7 @@
 
 ## 0.6.1 — 2026-09-28
 
+- Add PNG and ICO icons for mobile browsers and Home Screen shortcuts, while retaining the SVG favicon.
 - Simplify custom PNG sizing to one longest-edge field, compact footer links and prevent select focus outlines from overlapping labels.
 
 - Reduce the upload privacy note size.

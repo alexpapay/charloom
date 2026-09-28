@@ -178,6 +178,18 @@ def privacy():
     return FileResponse(STATIC / "privacy.html")
 
 
+@app.get("/favicon.ico")
+def favicon():
+    """Provide a raster favicon for browsers that do not use the SVG icon."""
+    return FileResponse(STATIC / "favicon.ico", media_type="image/x-icon")
+
+
+@app.get("/apple-touch-icon.png")
+def apple_touch_icon():
+    """Provide the iOS and iPadOS Home Screen icon at its conventional path."""
+    return FileResponse(STATIC / "apple-touch-icon.png", media_type="image/png")
+
+
 @app.get("/robots.txt")
 def robots():
     """Expose crawler guidance and the sitemap location."""

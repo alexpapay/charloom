@@ -229,6 +229,31 @@ def test_search_pages_and_crawler_metadata():
     assert "object-src 'none'" in csp
 
 
+def test_favicons_cover_browser_tabs_and_mobile_home_screens():
+    for path in ("/", "/guide", "/privacy"):
+        page = client.get(path).text
+        assert 'href="/favicon.ico"' in page
+        assert 'href="/static/favicon.svg"' in page
+        assert 'href="/apple-touch-icon.png"' in page
+        assert 'href="/static/site.webmanifest"' in page
+
+    assert client.get("/favicon.ico").headers["content-type"] == "image/x-icon"
+    touch_icon = client.get("/apple-touch-icon.png")
+    assert touch_icon.headers["content-type"] == "image/png"
+    with Image.open(io.BytesIO(touch_icon.content)) as image:
+        assert image.size == (180, 180)
+
+    manifest = client.get("/static/site.webmanifest")
+    assert manifest.headers["content-type"] == "application/manifest+json"
+    icons = manifest.json()["icons"]
+    assert {icon["sizes"] for icon in icons} == {"192x192", "512x512"}
+    for icon in icons:
+        response = client.get(icon["src"])
+        assert response.headers["content-type"] == "image/png"
+        with Image.open(io.BytesIO(response.content)) as image:
+            assert image.size == (int(icon["sizes"].split("x")[0]),) * 2
+
+
 def test_live_preview_is_bounded_png_and_uses_tone_controls():
     source = io.BytesIO()
     Image.new("RGB", (800, 400), (64, 64, 64)).save(source, format="PNG")
