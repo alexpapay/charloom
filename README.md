@@ -26,6 +26,14 @@ Weave images into expressive text art — crisp contours, responsive sizes, and 
 
 Charloom is an **offline Python image-to-text engine** with an optional web playground. Use ordinary ASCII in a terminal, or bring the same characters to the web with per-cell opacity. Your final artwork is selectable text — no canvas, SVG, raster overlay, or image font.
 
+## See it in action
+
+![Charloom playground comparing ASCII art with the original orbital demo](docs/screenshots/playground.png)
+
+| Mobile workspace | PNG export |
+| :---: | :---: |
+| ![Responsive ASCII preview on a phone](docs/screenshots/mobile-preview.png) | ![Image export dialog with size and transparency options](docs/screenshots/export-image.png) |
+
 ## What makes it useful
 
 - **Independent resolutions.** Each size is sampled from the original, not a smaller text preview.
