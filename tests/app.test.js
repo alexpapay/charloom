@@ -147,3 +147,28 @@ test('tone inputs automatically show processed preview and original remains avai
   get('preview-mode').listeners.change();
   assert.equal(get('original').src,'/static/orbital.png');
 });
+
+
+test('reset restores weave settings without regenerating or changing artwork preferences', async () => {
+  const {get, requests} = await playground();
+  for (const name of ['contrast','gamma','edge']) get(name).value='1.7';
+  get('palette').value=' .#';
+  get('background').value='threshold';
+  get('invert').checked=true;
+  get('color').value='#123456';
+  get('custom-width').value='337';
+  get('reset-settings').listeners.click();
+  assert.equal(get('contrast').value,'1');
+  assert.equal(get('gamma-value').textContent,'1.00');
+  assert.equal(get('edge').value,'0');
+  assert.equal(get('palette').value,' .:;+*x%#08@');
+  assert.equal(get('background').value,'keep');
+  assert.equal(get('invert').checked,false);
+  assert.equal(get('color').value,'#123456');
+  assert.equal(get('custom-width').value,'337');
+  assert.equal(requests.length,1);
+  await new Promise(resolve=>setTimeout(resolve,600));
+  assert.equal(requests.length,2);
+  assert.equal(requests[1].contrast,1);
+  assert.equal(get('preview-mode').value,'processed');
+});

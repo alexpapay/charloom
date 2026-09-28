@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.1 — 2026-09-28
+
+- Reduce the upload privacy note size.
+
+- Add Reset settings for the palette and image adjustments, refreshing the live preview while retaining the source, resolution and artwork colors.
+
 ## 0.6.0 — 2026-09-28
 
 - Add live tonal previews and Original / Processed comparison when image adjustments change.

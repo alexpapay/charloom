@@ -314,3 +314,15 @@ for (const name of ['contrast', 'gamma', 'edge']) {
   });
 }
 $('preview-mode').addEventListener('change', showPreview);
+
+$('reset-settings').addEventListener('click', () => {
+  $('palette').value = ' .:;+*x%#08@';
+  for (const [name, value] of [['contrast', 1], ['gamma', 1], ['edge', 0]]) {
+    $(name).value = String(value);
+    $(name + '-value').textContent = value.toFixed(2);
+  }
+  $('background').value = 'keep';
+  $('invert').checked = false;
+  schedulePreview();
+  status('Settings reset. Press Weave image to update characters.');
+});

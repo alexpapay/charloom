@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Free image to ASCII art converter. Convert PNG, JPG and WebP to text art with shadows and custom sizes. Export TXT, HTML or JSON."><title>Image to ASCII Art Converter — Free Online | Charloom</title><link rel="icon" type="image/svg+xml" href="/static/favicon.svg"><link rel="stylesheet" href="/static/style.css?v=0.6.0"><script type="module" src="/static/app.js?v=0.6.0"></script>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Free image to ASCII art converter. Convert PNG, JPG and WebP to text art with shadows and custom sizes. Export TXT, HTML or JSON."><title>Image to ASCII Art Converter — Free Online | Charloom</title><link rel="icon" type="image/svg+xml" href="/static/favicon.svg"><link rel="stylesheet" href="/static/style.css?v=0.6.1"><script type="module" src="/static/app.js?v=0.6.1"></script>
 <link rel="canonical" href="https://charloom.popovich.one/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Charloom">
@@ -17,13 +17,13 @@
 <meta name="twitter:description" content="Turn images into expressive ASCII art. Free and open source.">
 <meta name="twitter:image" content="https://charloom.popovich.one/static/social-card.png">
 <meta name="twitter:image:alt" content="Charloom terminal-style card with a green ASCII planet.">
-<script defer src="/static/analytics.js?v=0.6.0"></script></head>
+<script defer src="/static/analytics.js?v=0.6.1"></script></head>
 <body><div class="terminal" itemscope itemtype="https://schema.org/WebApplication"><meta itemprop="name" content="Charloom"><meta itemprop="url" content="https://charloom.popovich.one/"><meta itemprop="applicationCategory" content="MultimediaApplication"><meta itemprop="operatingSystem" content="Any OS with a modern browser"><meta itemprop="isAccessibleForFree" content="true">
-<header><a class="brand" href="/">charloom<span>▌</span></a><span class="version">v0.6.0</span><button class="prompt-trigger" id="open-prompt" type="button" aria-haspopup="dialog">AI redraw prompt</button><a class="github" href="https://github.com/alexpapay/charloom">GitHub ↗</a></header>
+<header><a class="brand" href="/">charloom<span>▌</span></a><span class="version">v0.6.1</span><button class="prompt-trigger" id="open-prompt" type="button" aria-haspopup="dialog">AI redraw prompt</button><a class="github" href="https://github.com/alexpapay/charloom">GitHub ↗</a></header>
 <main><form id="settings" class="settings"><h2><span>01</span> SOURCE & THREAD</h2>
 <label class="upload" for="source"><strong>↑ Open an image</strong><span id="filename">PNG, JPEG, WebP · up to 8 MB / 16 MP</span><span class="privacy">Images are sent to this server for conversion, processed in memory and not saved. For private work, run Charloom locally.</span><input id="source" type="file" accept="image/png,image/jpeg,image/webp"></label>
 <button class="quiet" id="demo" type="button">↺ Use the orbital demo</button>
-<section class="settings-controls" aria-labelledby="settings-title"><h2 id="settings-title"><span>03</span> WEAVE SETTINGS</h2>
+<section class="settings-controls" aria-labelledby="settings-title"><div class="settings-heading"><h2 id="settings-title"><span>03</span> WEAVE SETTINGS</h2><button id="reset-settings" type="button" title="Reset palette and image adjustments">Reset settings</button></div>
 <label>Character palette<select id="palette"><option value=" .:;+*x%#08@">Portrait / letters & numbers</option><option value=" .:-=+*#%@">Classic / symbols</option><option value=" .,:;i1tfLCG08@">Fine / mixed characters</option></select></label>
 <label>Contrast <output id="contrast-value">1.00</output><input id="contrast" type="range" min="0.5" max="2" step="0.05" value="1"></label>
 <label>Gamma <output id="gamma-value">1.00</output><input id="gamma" type="range" min="0.4" max="1.8" step="0.05" value="1"></label>
