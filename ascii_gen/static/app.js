@@ -1,4 +1,4 @@
-import { runs, exportHtml, fitCells, frameScheduler, paintImage } from './render.js';
+import { runs, exportHtml, fitCells, frameScheduler, paintImage, imageDimensions } from './render.js';
 
 const $ = id => document.getElementById(id);
 const downloads = ['txt', 'html', 'json', 'copy', 'export-text', 'export-image', 'png'];
@@ -210,13 +210,15 @@ $('art-background').addEventListener('input', () => {
 for (const kind of ['text', 'image']) {
   $('export-' + kind).addEventListener('click', () => {
     $(kind + '-export-status').textContent = '';
+    if (kind === 'image') updateImageSize();
     $(kind + '-dialog').showModal();
   });
   $('close-' + kind).addEventListener('click', () => $(kind + '-dialog').close());
 }
 $('png').addEventListener('click', async () => {
   if (!selected) return;
-  const variant = selected, config = { ...settings(), transparent: $('transparent').checked };
+  if (!updateImageSize()) return;
+  const variant = selected, config = { ...settings(), ...imageSize(), transparent: $('transparent').checked };
   $('png').disabled = true;
   try {
     await document.fonts.ready;
@@ -224,9 +226,32 @@ $('png').addEventListener('click', async () => {
     paintImage(canvas, variant, config);
     const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
     if (!blob) throw new Error('PNG export failed. Try fewer columns.');
-    save(blob, 'charloom-' + variant.columns + '.png', 'image/png');
+    save(blob, 'charloom-' + canvas.width + 'x' + canvas.height + '.png', 'image/png');
     $('image-export-status').textContent = 'PNG ready. Check your downloads.';
   } catch (error) {
     $('image-export-status').textContent = error.message || 'PNG export failed.';
   } finally { $('png').disabled = false; }
 });
+
+function imageSize() {
+  const custom = $('image-size').value === 'custom';
+  return { edge: Number(custom ? $('image-edge').value : $('image-size').value),
+    axis: custom ? $('image-axis').value : 'longest' };
+}
+function updateImageSize() {
+  $('custom-image-size').hidden = $('image-size').value !== 'custom';
+  if (!selected) return false;
+  try {
+    const {edge, axis} = imageSize();
+    const {width, height} = imageDimensions(selected, result.options.character_aspect, edge, axis);
+    $('image-dimensions').textContent = `PNG · ${width} × ${height} px`;
+    $('png').disabled = false;
+    return true;
+  } catch (error) {
+    $('image-dimensions').textContent = error.message;
+    $('png').disabled = true;
+    return false;
+  }
+}
+for (const id of ['image-size', 'image-axis', 'image-edge'])
+  $(id).addEventListener('input', updateImageSize);

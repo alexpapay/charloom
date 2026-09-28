@@ -39,11 +39,24 @@ export function exportHtml(variant, { color, background = "#000000", strength, b
   return `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Charloom text art</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:${paper}}pre{color:${ink};font-family:'Courier New',monospace;font-weight:${bold?'bold':'normal'};font-size:clamp(2px,calc(95vw / ${variant.columns} / .6),12px);line-height:${1/aspect}ch;white-space:pre;letter-spacing:0;margin:16px;font-variant-ligatures:none}</style><pre role="img" aria-label="ASCII artwork generated with Charloom">${body}</pre></html>`;
 }
 
-/** Paint the same glyph grid and tone opacity without scaling a screenshot. */
-export function paintImage(canvas, variant, { color, background, strength, bold, aspect, transparent }) {
+/** Resolve bounded PNG dimensions while keeping the physical character-grid ratio. */
+export function imageDimensions(variant, aspect, edge = 2048, axis = 'longest') {
+  if (!Number.isInteger(edge) || edge < 1 || edge > 4096)
+    throw new Error('Enter a whole number from 1 to 4096 pixels.');
   const ratio = variant.columns * aspect / variant.rows;
-  canvas.width = Math.round(ratio >= 1 ? 2048 : 2048 * ratio);
-  canvas.height = Math.round(ratio >= 1 ? 2048 / ratio : 2048);
+  const byWidth = axis === 'width' || (axis === 'longest' && ratio >= 1);
+  const width = Math.max(1, Math.round(byWidth ? edge : edge * ratio));
+  const height = Math.max(1, Math.round(byWidth ? edge / ratio : edge));
+  if (width > 4096 || height > 4096)
+    throw new Error('Both dimensions must fit within 4096 pixels. Choose a smaller size.');
+  return { width, height };
+}
+
+/** Paint the same glyph grid and tone opacity without scaling a screenshot. */
+export function paintImage(canvas, variant, { color, background, strength, bold, aspect, transparent, edge = 2048, axis = 'longest' }) {
+  const dimensions = imageDimensions(variant, aspect, edge, axis);
+  canvas.width = dimensions.width;
+  canvas.height = dimensions.height;
   const context = canvas.getContext('2d');
   if (!context) throw new Error('Image export is unavailable in this browser.');
   if (!transparent) {

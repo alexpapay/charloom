@@ -48,3 +48,15 @@ test('PNG painting preserves proportions, masks and background choice', async ()
   paintImage(canvas,variant,{...config,transparent:false});
   assert.equal(fills.length,1);
 });
+
+test('PNG sizes support presets, custom axes and bounded rounding', async () => {
+  const {imageDimensions} = await import('../ascii_gen/static/render.js');
+  const wide = {columns:120,rows:30};
+  assert.deepEqual(imageDimensions(wide,.5,1024),{width:1024,height:512});
+  assert.deepEqual(imageDimensions(wide,.5,4096),{width:4096,height:2048});
+  assert.deepEqual(imageDimensions(wide,.5,800,'height'),{width:1600,height:800});
+  assert.deepEqual(imageDimensions(wide,.5,777,'width'),{width:777,height:389});
+  assert.deepEqual(imageDimensions({columns:40,rows:80},.5,2048),{width:512,height:2048});
+  for (const edge of [0,4097,NaN,2.5]) assert.throws(()=>imageDimensions(wide,.5,edge));
+  assert.throws(()=>imageDimensions(wide,.5,3000,'height'));
+});

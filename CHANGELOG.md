@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0 — 2026-09-28
+
+- Add PNG size presets at 1024, 2048 and 4096 pixels.
+- Add custom width or height with automatic proportional sizing and live output dimensions.
+- Bound exports to 4096 pixels per side and include dimensions in PNG filenames.
+
 ## 0.4.0 — 2026-09-28
 
 - Group TXT, HTML, JSON and clipboard actions in an Export text dialog.
