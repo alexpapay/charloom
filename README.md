@@ -6,11 +6,12 @@
 
 Weave images into expressive text art — crisp contours, responsive sizes, and a little terminal magic.
 
+<a href="https://buymeacoffee.com/alexpapay"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy me a coffee" width="180" height="50"></a>
+
 [![Checks](https://github.com/alexpapay/charloom/actions/workflows/check.yml/badge.svg)](https://github.com/alexpapay/charloom/actions/workflows/check.yml)
 [![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-69efb2)](LICENSE)
 [![Playground](https://img.shields.io/badge/Playground-live-69efb2)](https://charloom.popovich.one)
-[![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-support-69efb2)](https://buymeacoffee.com/alexpapay)
 
 [Try the playground](https://charloom.popovich.one) · [CLI reference](docs/cli.md) · [Prepare better inputs](docs/redraw.md) · [Self-host](docs/deployment.md)
 
