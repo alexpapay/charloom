@@ -243,3 +243,5 @@ h1 span { color: var(--yellow); margin-right: 8px; }
 .settings-heading h2 { font-size: 11px; letter-spacing: 0; padding: 0; }
 .settings-heading h2 span { margin-right: 4px; }
 .settings .settings-heading button { min-height: 28px; padding: 4px 6px; font-size: 10px; white-space: nowrap; background: transparent; }
+
+#status:empty { display: none; }

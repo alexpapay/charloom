@@ -102,7 +102,7 @@ async function weave(width = desiredWidth, force = false) {
     // Bound the browser cache when experimenting with many custom sizes.
     while (variants.size > 8) variants.delete(variants.keys().next().value);
     draw(body.variants.find(variant => variant.columns === width) || body.variants[0]);
-    status(body.warnings?.length ? body.warnings.join(' ') : 'Ready. Color, shadow and weight update live.');
+    status(body.warnings?.length ? body.warnings.join(' ') : '');
   } catch (error) {
     if (error.name !== 'AbortError' && id === requestId) status(error.message || 'Connection failed. Try again.', true);
   } finally {
