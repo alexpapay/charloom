@@ -10,6 +10,7 @@ Weave images into expressive text art — crisp contours, responsive sizes, and 
 [![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-69efb2)](LICENSE)
 [![Playground](https://img.shields.io/badge/Playground-live-69efb2)](https://charloom.popovich.one)
+[![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-support-69efb2)](https://buymeacoffee.com/alexpapay)
 
 [Try the playground](https://charloom.popovich.one) · [CLI reference](docs/cli.md) · [Prepare better inputs](docs/redraw.md) · [Self-host](docs/deployment.md)
 
@@ -135,3 +136,7 @@ Use **Export text** for TXT, HTML + tones, generated JSON or clipboard copy. **E
 ## Live tonal preview
 
 Changing contrast, gamma, contours, inversion or background removal shows a processed preview after a short pause. Original / Processed compares it with the source. ASCII updates with Weave image. The preview uses shared tone processing at up to 512 pixels; contour detail can differ from the lower-resolution character grid. Uploads are sent again for each preview update and remain subject to the same upload and concurrency limits. The optional `preview=true` query parameter on `/api/convert` and `/api/demo` returns PNG; omitted or false keeps the existing JSON response.
+
+## Support Charloom
+
+Enjoying Charloom? [Buy me a coffee](https://buymeacoffee.com/alexpapay) and help keep the characters flowing.
