@@ -1,5 +1,9 @@
 FROM ghcr.io/astral-sh/uv:0.12.19 AS uv
 FROM python:3.12-slim
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends --only-upgrade liblzma5 \
+    && dpkg --compare-versions "$(dpkg-query -W -f='${Version}' liblzma5)" ge '5.8.1-1+deb13u2' \
+    && rm -rf /var/lib/apt/lists/*
 COPY --from=uv /uv /usr/local/bin/uv
 WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 UV_COMPILE_BYTECODE=1
