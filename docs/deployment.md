@@ -37,3 +37,5 @@ Keep the previous commit and local image ID before updating. Run `git pull --ff-
 Application logs contain errors and startup messages, not uploaded image bodies. Review your proxy/CDN's retention independently. Do not publish credentials, source portraits, SSH configuration or certificate keys in the repository.
 
 For this hostname, install deploy/renew-hook.sh as an executable file under /etc/letsencrypt/renewal-hooks/deploy/ so nginx reloads after certificate renewal. Adapt the hostname when self-hosting elsewhere.
+
+APT and its installed libapt/apt-utils packages are bootstrapped before other APT transactions. The security helper requires Debian 12 >= 2.6.2, Debian 13 >= 3.0.4, or Ubuntu noble >= 2.8.4ubuntu0.1 for CVE-2026-109518. Bootstrap and build-time package downloads explicitly disable retries. Preserve the existing runtime/application versions and security overlays; replace affected services individually and retain the previous images for rollback.

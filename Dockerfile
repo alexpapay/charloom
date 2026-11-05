@@ -1,7 +1,9 @@
 FROM ghcr.io/astral-sh/uv:0.12.19 AS uv
 FROM python:3.12-slim
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends --only-upgrade liblzma5 \
+COPY docker/security/install-apt-security.sh /tmp/install-apt-security.sh
+RUN sh /tmp/install-apt-security.sh && rm /tmp/install-apt-security.sh
+RUN apt-get -o Acquire::Retries=0 update \
+    && apt-get -o Acquire::Retries=0 install -y --no-install-recommends --only-upgrade liblzma5 \
     && dpkg --compare-versions "$(dpkg-query -W -f='${Version}' liblzma5)" ge '5.8.1-1+deb13u2' \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=uv /uv /usr/local/bin/uv
