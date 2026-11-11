@@ -3,7 +3,7 @@ FROM python:3.12-slim
 COPY docker/security/install-apt-security.sh /tmp/install-apt-security.sh
 RUN sh /tmp/install-apt-security.sh && rm /tmp/install-apt-security.sh
 RUN apt-get -o Acquire::Retries=0 update \
-    && apt-get -o Acquire::Retries=0 install -y --no-install-recommends --only-upgrade liblzma5 \
+    && apt-get -o Acquire::Retries=0 install -y --no-install-recommends --only-upgrade liblzma5 ca-certificates zlib1g \
     && dpkg --compare-versions "$(dpkg-query -W -f='${Version}' liblzma5)" ge '5.8.1-1+deb13u2' \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=uv /uv /usr/local/bin/uv
@@ -13,6 +13,8 @@ COPY pyproject.toml uv.lock README.md LICENSE ./
 RUN uv sync --frozen --no-dev --extra web --no-install-project
 COPY ascii_gen ./ascii_gen
 RUN uv sync --frozen --no-dev --extra web
+COPY docker/security/install-apt-security.sh docker/security/native-upgrade.sh docker/security/distrust-emsign.sh /opt/maintenance/
+RUN sh /opt/maintenance/native-upgrade.sh
 USER 10001:10001
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s CMD ["/app/.venv/bin/python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=3)"]

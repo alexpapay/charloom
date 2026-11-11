@@ -149,3 +149,5 @@ Changing contrast, gamma, contours, inversion or background removal shows a proc
 ## Support Charloom
 
 Enjoying Charloom? [Buy me a coffee](https://buymeacoffee.com/alexpapay) and help keep the characters flowing.
+
+Container builds run the shared native security upgrade helper before dropping privileges. The trust-store helper removes only the emSign C1/C3 SHA-256 fingerprints from system and Python certifi bundles; Java and other independent stores require separate verification. Missing upstream vendor runtime fixes remain tracked separately.
