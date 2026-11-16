@@ -19,6 +19,10 @@ if command -v apt-get >/dev/null 2>&1; then
     . /etc/os-release
     case "$ID:$VERSION_CODENAME" in
         ubuntu:noble)
+            check_deb libc6 2.39-0ubuntu8.12
+            check_deb libc-bin 2.39-0ubuntu8.12
+            check_deb libc6-dev 2.39-0ubuntu8.12
+            check_deb libc-dev-bin 2.39-0ubuntu8.12
             check_deb apt 2.8.4ubuntu0.1
             check_deb libpcre2-8-0 10.42-4ubuntu2.2
             check_deb zlib1g 1:1.3.dfsg-3.1ubuntu2.3
@@ -28,6 +32,11 @@ if command -v apt-get >/dev/null 2>&1; then
             check_deb perl-base 5.38.2-3.2ubuntu0.7
             check_deb liblzma5 5.6.1+really5.4.5-1ubuntu0.4 ;;
         debian:trixie)
+            check_deb libcares2 1.34.9-1~deb13u1
+            check_deb postgresql-18 18.7
+            check_deb postgresql-client-18 18.7
+            check_deb postgresql-17 17.12
+            check_deb postgresql-client-17 17.12
             check_deb apt 3.0.4
             check_deb zlib1g 1:1.3.dfsg+really1.3.1-1+deb13u1
             check_deb liblzma5 5.8.1-1+deb13u2
