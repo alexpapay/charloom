@@ -32,6 +32,8 @@ if command -v apt-get >/dev/null 2>&1; then
             check_deb perl-base 5.38.2-3.2ubuntu0.7
             check_deb liblzma5 5.6.1+really5.4.5-1ubuntu0.4 ;;
         debian:trixie)
+            check_deb libzstd1 1.5.7+dfsg-1+deb13u1
+            check_deb zstd 1.5.7+dfsg-1+deb13u1
             check_deb libcares2 1.34.9-1~deb13u1
             check_deb postgresql-18 18.7
             check_deb postgresql-client-18 18.7
